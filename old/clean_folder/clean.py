@@ -1,4 +1,3 @@
-#from normalizer import normalize
 from pathlib import Path
 import sys
 import shutil
@@ -61,7 +60,6 @@ def make_dir_func(path):
     new_folder = 'Sorted_folder'
     for item in INNER_FOLDERS_LIST:
         Path(path, new_folder, item).mkdir(exist_ok=True, parents=True)
-        #Path(f'{path}\\{new_folder}\\{item}').mkdir(exist_ok=True, parents=True)
 
 
 
@@ -69,35 +67,30 @@ def file_scaner(folder_path: Path) -> None:
 
     for x in folder_path.iterdir():
         if x.is_file():
-            # FILE_LIST.append((normalize(x.stem), x.suffix))
 
             if x.suffix[1:] in EXTENSIONS_DICT['images']:
                 IMAGES_LIST.append(f'{normalize(x.stem)}{x.suffix}')
                 KNOWN_EXTENSIONS.add(f'{x.suffix}')
                 shutil.move(Path(x.absolute()),
                             Path(FOLDER_PATH, 'Sorted_folder', 'images', f'{normalize(x.stem)}{x.suffix}'))
-                            #Path(f'{FOLDER_PATH}\\Sorted_folder\\images\\{normalize(x.stem)}{x.suffix}'))
 
             elif x.suffix[1:] in EXTENSIONS_DICT['documents']:
                 DOCUMENTS_LIST.append(f'{normalize(x.stem)}{x.suffix}')
                 KNOWN_EXTENSIONS.add(f'{x.suffix}')
                 shutil.move(Path(x.absolute()),
                             Path(FOLDER_PATH, 'Sorted_folder', 'documents', f'{normalize(x.stem)}{x.suffix}'))
-                            #Path(f'{FOLDER_PATH}\\Sorted_folder\\documents\\{normalize(x.stem)}{x.suffix}'))
 
             elif x.suffix[1:] in EXTENSIONS_DICT['audio']:
                 AUDIO_LIST.append(f'{normalize(x.stem)}{x.suffix}')
                 KNOWN_EXTENSIONS.add(f'{x.suffix}')
                 shutil.move(Path(x.absolute()),
                             Path(FOLDER_PATH, 'Sorted_folder', 'audio', f'{normalize(x.stem)}{x.suffix}'))
-                            #Path(f'{FOLDER_PATH}\\Sorted_folder\\audio\\{normalize(x.stem)}{x.suffix}'))
 
             elif x.suffix[1:] in EXTENSIONS_DICT['video']:
                 VIDEO_LIST.append(f'{normalize(x.stem)}{x.suffix}')
                 KNOWN_EXTENSIONS.add(f'{x.suffix}')
                 shutil.move(Path(x.absolute()),
                             Path(FOLDER_PATH, 'Sorted_folder', 'video', f'{normalize(x.stem)}{x.suffix}'))
-                            #Path(f'{FOLDER_PATH}\\Sorted_folder\\video\\{normalize(x.stem)}{x.suffix}'))
 
             elif x.suffix[1:] in EXTENSIONS_DICT['archives']:
                 ARCHIVES_LIST.append(f'{normalize(x.stem)}{x.suffix}')
@@ -106,21 +99,17 @@ def file_scaner(folder_path: Path) -> None:
                     shutil.unpack_archive(Path(x.absolute()),
                                           Path(FOLDER_PATH, 'Sorted_folder', 'archives',
                                                f'{normalize(x.stem)}{x.suffix}'))
-                                          #Path(f'{FOLDER_PATH}\\Sorted_folder\\archives\\{normalize(x.stem)}'))
                     shutil.move(Path(x.absolute()),
                                 Path(FOLDER_PATH, 'Sorted_folder', 'archives', f'{normalize(x.stem)}{x.suffix}'))
-                                #Path(f'{FOLDER_PATH}\\Sorted_folder\\archives\\{normalize(x.stem)}{x.suffix}'))
                 except shutil.ReadError:
                     print(f'Something become WRONG with {x}!')
                     shutil.move(Path(x.absolute()),
                                 Path(FOLDER_PATH, 'Sorted_folder', 'archives', f'{normalize(x.stem)}{x.suffix}'))
-                                #Path(f'{FOLDER_PATH}\\Sorted_folder\\archives\\{normalize(x.stem)}{x.suffix}'))
             else:
                 OTHER_LIST.append(f'{normalize(x.stem)}{x.suffix}')
                 UNKNOWN_EXTENSIONS.add(f'{x.suffix}')
                 shutil.move(Path(x.absolute()),
                             Path(FOLDER_PATH, 'Sorted_folder', f'{normalize(x.stem)}{x.suffix}'))
-                            #Path(f'{FOLDER_PATH}\\Sorted_folder\\{normalize(x.stem)}{x.suffix}'))
         elif x.is_dir():
             if x.name not in INNER_FOLDERS_LIST:
                 FOLDER_LIST.append(x)
